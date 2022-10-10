@@ -1,0 +1,114 @@
+def cabeçalho(txt):
+    print(txt.center(42))
+
+def menu(lista):
+    cabeçalho("Menu Principal")
+    for elem in lista:
+        print(elem)
+
+def aleatorios():
+    N = int(input("Escolha o número de elementos da lista"))
+    import random
+    aleatorios = []
+    for i in range(N):
+        aleatorios.append(random.randint(1,100))
+    return aleatorios
+
+def leLista(N):
+    lista = []
+    num = 1
+    while num <= N:
+        n = int(input("Introduza o elemento" + str(num) + ":"))
+        lista.append(n)
+        num = num + 1
+    return lista
+
+def somaLista(lista):
+    soma = 0
+    for n in lista:
+        soma = soma + n
+    return soma
+
+def mediaLista(lista):
+    soma = 0
+    for n in lista:
+        soma = soma + n
+    return soma/len(lista)
+
+def maiorLista(lista):
+    maior = lista[0]
+    for n in lista[1:]:
+        if n > maior:
+            maior = n
+    return maior
+
+def menorLista(lista):
+    menor = lista[0]
+    for n in lista[1:]:
+        if n < menor:
+            menor = n
+    return menor
+
+def unicos(listaA, listaB):
+    res = []
+    for elem in listaA:
+        if elem not in listaB:
+            res.append(elem)
+    for elem in listaB:
+        if elem not in listaA:
+            res.append(elem)
+    return res 
+
+def ordemCrescente(lista):
+    maior = lista[0]
+    res = True
+    for elem in lista:
+        if elem < maior:
+            res = False
+        maior = elem
+    if res == True:
+        print("SIM")
+    else:
+        print("NÃO")
+
+def ordemDecrescente(lista):
+    menor = lista[0]
+    res = True
+    for elem in lista:
+        if elem > menor:
+            res = False
+        menor = elem
+    if res == True:
+        print("SIM")
+    else:
+        print("NÃO")
+
+menu(["1 - Criar lista", "2 - Ler lista", "3 - Soma" , "4 - Média" , "5 - Maior" , "6 - Menor" , "7 - Ordenada por ordem crescente", "8 - Ordenada por ordem decrescente", "9 - Procura um elemento", "0 - Sair"])
+
+opc = int(input("Escolha a sua opção: "))
+
+lista = aleatorios()
+print(lista)
+
+if opc == 1:
+    lista = aleatorios()
+if opc == 2:
+    lista = leLista()
+if opc == 3:
+    print("A soma dos elementos da lista é", somaLista(lista))
+if opc == 4:
+    print("A média dos elementos da lista é", mediaLista(lista))
+if opc == 5:
+    print("O maior elemento da lista é:", maiorLista(lista))
+if opc == 6:
+    print("O maior elemento da lista é:", menorLista(lista))
+if opc == 7:
+    print(ordemCrescente(lista))
+if opc == 8:
+    print(ordemDecrescente(lista))
+if opc == 9:
+    elem = int(input(""))
+    print(unicos(lista, elem))
+else:
+    print("Fim do programa. Volte sempre.")
+    print(lista)
