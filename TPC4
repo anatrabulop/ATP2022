@@ -1,0 +1,119 @@
+# Funções de apoio à aplicação
+
+def menu():
+    print("MENU PRINCIPAL")
+    print("""
+    (1) Reset
+    (2) Listar filmes
+    (3) Adicionar sala ao cinema
+    (4) Listar disponibilidades
+    (5) Vender bilhete
+    (6) Verificar se o lugar está disponível
+    (0) Sair
+    """)
+
+def inserirSala(cinema, s):
+    cinema.append(s)
+    return cinema
+
+def listar(cinema):
+    print("Número de lugares  Vendidos  Filme")
+    print("----------------------------------")
+    for s in cinema:
+        nlugares, vendidos, filme = s
+        print(s)
+    return cinema
+
+def disponivel(cinema, filme, lugar):
+    filme = input("Qual o filme que deseja verificar a disponibilidade?")
+    lugar = input("Qual o lugar que deseja verificar?")
+    res = True
+    for s in cinema:
+        nlugares, vendidos, filme = s
+        if filme == s:
+            if lugar in vendidos:
+                res = False
+    return res
+
+def vendeBilhete(cinema, filme, lugar):
+    for s in cinema:
+        nlugares, vendidos, filme = s
+        if filme == s[2]:
+            if lugar not in vendidos:
+                vendidos.append(lugar)
+    return cinema
+
+def listardisponibilidades(cinema):
+    print("Filme | Número de lugares disponíveis")
+    print("------------------------------------")
+    for s in cinema:
+        nlugares, vendidos, filme = s
+        lugaresDisponiveis = nlugares - len(vendidos)
+        print(s, "|", lugaresDisponiveis)
+    return len(cinema)
+
+
+def criarSala(cinema):
+    filme = input("Introduza o nome do filme da nova sala: ")
+    nlugares = int(input("Introduza o número de lugares da nova sala: "))
+    vendidos = []
+    sala = input("Qual é o nome da sua sala?")
+    sala = (nlugares, vendidos, filme)
+    if sala not in cinema:
+        cinema.append(sala)
+    else: 
+        print("A sala já se encontrava no cinema.")
+
+def removerSala(cinema):
+    filme = input("Deseja remover a sala associada a que filme?: ")
+    for sala in cinema:
+        if filme == sala[2]:
+            cinema.remove(sala)
+            print("A sala foi eliminada do cinema.")
+        else:
+            print("O filme escolhido já não se encontrava disponível.")
+    return len(cinema)
+
+def menu():
+    print("MENU PRINCIPAL")
+    print("""
+    (1) Listar filmes
+    (2) Adicionar sala ao cinema
+    (3) Listar disponibilidades
+    (4) Vender bilhete
+    (5) Verificar se o lugar está disponível
+    (6) Remover sala do cinema
+    (0) Sair
+    """)
+    
+# Utilizador começa a usar a aplicação
+
+opcao = 1
+s1 = (600, [], "Twilight")
+s2 = (1500, [], "Hannibal")
+s3 = (800, [], "A vida é bela")
+cinema = []
+cinema = inserirSala(cinema, s1)
+cinema = inserirSala(cinema ,s2)
+cinema = inserirSala(cinema, s3)
+
+
+while opcao != '0':
+    menu()
+    opcao = input("Introduza uma opção: ")
+    if opcao == '1':
+        listar(cinema)
+    elif opcao == '2':
+        cinema = criarSala(cinema)
+    elif opcao == '3':
+        listardisponibilidades(cinema)
+    elif opcao == '4':
+        filme = input("Para que filme deseja comprar o bilhete?")
+        lugar = input("Qual o lugar que deseja escolher?")
+        vendeBilhete(cinema, filme, lugar)
+    elif opcao == '5':
+        filme = input("Para que filme deseja verificar a disponibilidade?")
+        lugar = input("Qual o lugar que deseja verificar?")
+        print(disponivel(cinema, filme, lugar))
+    elif opcao == '6':
+        removerSala(cinema)
