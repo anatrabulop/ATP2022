@@ -1,0 +1,149 @@
+import os
+
+hospital = []
+tabela = open("myheart.csv")
+
+for linha in tabela:
+    dados = tuple(linha[:-1].split(","))
+    idade, sexo, tensão, colesterol, batimento, terDoença = dados
+    hospital.append(dados)
+
+doentes = []
+for dados in hospital:
+    idade, sexo, tensão, colesterol, batimento, terDoença = dados
+    for terDoença in dados:
+        if terDoença == "1":
+            doentes.append(dados)
+
+def listarHospital ():
+    print("\n","-------------------------------------------------------------")  
+    print("Idade    Sexo    Tensão     Colesterol    Batimentos    Doença")
+    for dados in hospital:
+        idade, sexo, tensão, colesterol, batimento, terDoença = dados
+        print(" ",idade," | ",sexo," | ",tensão," | ",colesterol," | ",batimento," | ",terDoença)
+    tabela.close()
+    return()
+
+def distSexo ():
+    acumCM = 0
+    acumCF = 0
+    acumSM = 0
+    acumCF = 0
+    distribSexo = { "M": acumCM , "F": acumCF}
+    for dados in hospital:
+        idade, sexo, tensão, colesterol, batimento, terDoença = dados
+        if sexo == "M" and terDoença == "1":
+            acumCM = acumCM + 1
+        elif sexo == "M" and terDoença == "0":
+            acumSM = acumSM + 1
+        elif sexo == "F" and terDoença == "1":
+            acumCF = acumCF + 1
+        elif sexo == "F" and terDoença == "0":
+            acumSF = acumSF + 1
+
+    utentesTodos = len(hospital)
+    machosTodos = acumCM + acumSM
+    percCM = acumCM/machosTodos * 100
+    femeasTodas = acumCF + acumSF
+    percCF = acumCF/femeasTodas * 100
+    print("Utentes do Sexo Masculino: ", machosTodos, "dos quais, ", acumCM, "têm doença. ")
+    print("Utentes do Sexo Feminino: ", femeasTodas, "das quais, ", acumCF, "têm doença. ")
+
+    import matplotlib.pyplot as plt 
+    left = [1, 4, 7, 10]
+    altura = [acumCM, machosTodos, acumCF, femeasTodas]         
+    tick_label = ["Utentes do Sexo Masculino com Doença", "Total de Utentes do Sexo Masculino", "Utentes do Sexo Feminino com Doença", "Total de Utentes do Sexo Feminino"]
+    plt.bar(left, altura, tick_label = tick_label, largura = 1, cor = ["verde", "rosa"])
+    plt.title("Distribuição da doença cardíaca por sexo")
+    plt.show()
+    return()
+
+def distIdade ():
+    listarIdade = [0]
+    for n in range (4, 90, 4) :
+        listarIdade.append(n)
+    distribIdade = {}
+    n = 0
+    for dados in doentes:
+        a = 0
+        idade, sexo, tensão, colesterol, batimento, terDoença = dados
+        for idade in dados:
+            for n in intervalo(0, len(listarIdade)):
+                while a == 0:
+                    if listarIdade [n] <= int(idade) and int(idade) <= listarIdade [n + 1] :
+                        a = 1
+                        intervalo = (str(listarIdade [n]), str(listarIdade [n + 1]))
+                        chave = "-".join(intervalo)
+                        if chave in distribIdade.keys() :
+                            distribIdade[chave] = distribIdade [chave] + 1
+                        else :
+                            distribIdade [chave] = 1
+                    else :
+                        n = n + 1
+    
+    print(" \n Distribuição da Doença por Faixa Etária", "\n")
+    for chave1 in distribIdade.keys() :
+        print("Faixa Etária: {chave1}, Número de utentes: {distribIdade[chave1]}")
+    return()
+
+def distColesterol ():
+    listarColesterol = []
+    for c in range (0, 630, 20) :
+        listarColesterol.append(c)
+    distribColesterol = {}
+    c = 0 
+    for dados in doentes :
+        b = 0 
+        for colesterol in dados :
+            idade, sexo, tensão, colesterol, batimento, terDoença = dados
+            for c in intervalo(0, len(listarColesterol) - 1) :
+                while b == 0 :
+                    if listarColesterol[c] <= int(colesterol) and int(colesterol) <= listarColesterol[c + 1] :
+                        b = 1
+                        intervalo = (str(listarColesterol[c]), str(listarColesterol[c + 1]))
+                        chave2 = "-".join(intervalo)
+                        if chave2 in distribColesterol.keys() :
+                            distribColesterol[chave2] = distribColesterol[chave2] + 1
+                        else :
+                            distribColesterol[chave2] = 1
+                    else :
+                        c = c + 1
+
+    print(" \n Distribuição da doença por níveis de colesterol", "\n")
+    for chave2 in distribColesterol.keys() :
+        print("Nível de colesterol: {chave2}, Número de utentes: {dis_colesterol[chave2]}")
+    return()
+
+def menu():
+    print('''
+    (1) Listar Utentes
+    (2) Distribuição por Sexo
+    (3) Distribuição por Idade
+    (4) Distribuição por Níveis de Colesterol
+    (0) Sair da Aplicação
+    ''')
+opcao = 1
+while menu != "0":
+    menu ()
+    opcao = input(" Introduza uma opção: ")
+    if menu == "1":
+        listarHospital()
+        menu()
+
+    elif menu == "2":
+        distSexo()
+        menu()
+
+    elif menu == "3":
+        distIdade()
+        menu()
+
+    elif menu == "4":
+        distColesterol()
+        menu()
+    
+    else: 
+        print("\n  Opção Inválida. Tente Novamente.")
+        menu ()
+
+print("\n Fim da Aplicação. Obrigada!" )
