@@ -1,0 +1,132 @@
+# TPC
+# 1.a
+
+def inicDiferente(s1, s2):
+    res = 0
+    n = 0
+    str1 = []
+    str2 = []
+    for caract in s1:
+        str1.append(caract)
+    for caract in s2:
+        str2.append(caract)
+    while str1[n] != str2[n]:
+        res = res + 1
+        n = n + 1
+    return res
+
+inicDiferente("Está um bom dia...", "Hoje é um dia alegre.")
+
+# 1.b
+
+def acimaMedia(n):
+    res = 0
+    lista = []
+    soma = 0
+    contador = n
+    while contador > 0:
+        num = int(input("Introduza um número:"))
+        lista.append(num)
+        soma = soma + 1
+        contador = contador - 1
+    media = soma/n
+    for n in lista:
+        if n > media:
+            res = res + 1
+    return res
+
+# 1.c
+
+def merge(l1, l2):
+    lista = l1 + l2
+    comprimInicialLista = len(lista)
+    listaOrdenada = []
+    while len(listaOrdenada) < comprimInicialLista:
+        menor = lista[0]
+        for elem in lista[1:]:
+            if elem < menor:
+                   menor = elem
+        listaOrdenada.append(menor)
+
+        return print(listaOrdenada)
+
+# 1.d
+
+def figuais(f1, f2):
+    txt1 = open(f1)
+    txt2 = open(f2)
+    listaTxt1 = []
+    listaTxt2 = []
+    n = 0
+    res = True
+    for linha in txt1:
+        listaTxt1.append(linha)
+    for linha in txt2:
+        listaTxt2.append(linha)
+    while n < len(listaTxt1):
+        if listaTxt1[n] != listaTxt2[n]:
+            return False
+        n = n + 1
+    return res
+
+# 2.a
+
+def atores(cinemateca):
+    listaAtores = []
+    for filme in cinemateca:
+        _,_,atores,_ = filme
+        for ator in atores:
+            if ator not in listaAtores:
+                listaAtores.append(ator)
+    listaAtores.sort()
+
+    return listaAtores
+
+# 2.b
+
+def listarPorGenero(cinemateca, genero):
+    listaTitulos = []
+    for filme in cinemateca:
+        titulo,_,_,tipoFilme = filme
+        if genero in tipoFilme:
+            listaTitulos.append(titulo)
+    listaTitulos.sort()
+    
+    return listaTitulos
+
+# 2.c
+
+def maiorElenco(cinemateca):
+    numAutores1 = 0
+    for filme in cinemateca:
+        titulo,_, elenco,_ = filme
+        numAutores2 = len(elenco)
+        if numAutores2 >= numAutores1:
+            numAutores1 = numAutores2
+            tituloMaisAutores = titulo
+    return tituloMaisAutores
+
+# 2.d
+
+def filmePorGenero(cinemateca):
+    distribGenero = {}
+    for filme in cinemateca:
+        _,_,_, generoTuplo = filme
+        for genero in generoTuplo:
+            if genero in distribGenero.keys():
+                distribGenero[genero] = distribGenero[genero] + 1
+            else:
+                distribGenero[genero] = 1
+
+    return distribGenero
+
+# 2.e
+
+import matplotlib.pyplot as plt
+
+def grafico(distrib):
+    plt.bar(distrib.keys(), distrib.values(),color = ['darkslategray','navy' ,'blue','dodgerblue','skyblue'])
+    plt.xticks([x for x in range(0, len(distrib.keys()))], distrib.keys(), rotation=45)
+    plt.title("Número de filmes por género")
+    plt.show()
+    return
